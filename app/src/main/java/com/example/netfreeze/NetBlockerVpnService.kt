@@ -49,7 +49,7 @@ class NetBlockerVpnService : VpnService() {
             frozenApps.forEach { packageName ->
                 try {
                     builder.addAllowedApplication(packageName)
-                } catch (_: android.content.pm.PackageManager.NameNotFoundException) {
+                } catch (e: android.content.pm.PackageManager.NameNotFoundException) {
                     // Ignore apps that have since been uninstalled.
                 }
             }
@@ -66,17 +66,17 @@ class NetBlockerVpnService : VpnService() {
                     }
                 }
             } finally {
-                try { descriptor.close() } catch (_: Exception) { }
+                try { descriptor.close() } catch (e: Exception) { }
                 if (vpnInterface === descriptor) vpnInterface = null
             }
-        } catch (_: Exception) {
+        } catch (e: Exception) {
             // Service can be stopped by Android or when the VPN permission is revoked.
         }
     }
 
     private fun stopVpn() {
         stopping.set(true)
-        try { vpnInterface?.close() } catch (_: Exception) { }
+        try { vpnInterface?.close() } catch (e: Exception) { }
         vpnInterface = null
         worker?.interrupt()
         worker = null

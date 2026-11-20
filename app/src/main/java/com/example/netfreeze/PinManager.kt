@@ -31,7 +31,7 @@ object PinManager {
             val salt = Base64.decode(saltText, Base64.NO_WRAP)
             val expected = Base64.decode(hashText, Base64.NO_WRAP)
             java.security.MessageDigest.isEqual(expected, derive(pin, salt))
-        } catch (_: Exception) { false }
+        } catch (e: Exception) { false }
     }
 
     private fun derive(pin: String, salt: ByteArray): ByteArray {
